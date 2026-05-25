@@ -6,7 +6,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth';
+  private apiUrl = 'https://smartbiz-backend-p562.onrender.com/api/auth';
 
   constructor(private http: HttpClient) {}
 
