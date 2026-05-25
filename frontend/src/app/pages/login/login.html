@@ -1,0 +1,252 @@
+<div class="login-page">
+  <div class="hero-section">
+    <div class="floating-blob blob1"></div>
+    <div class="floating-blob blob2"></div>
+
+    <div class="hero-content">
+      <div class="brand-badge">
+        <i class="bi bi-stars"></i>
+        Smart Retail Solution
+      </div>
+
+      <h1 class="hero-title">
+        Manage your business with
+        <span>SmartBiz</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        A premium retail management platform for inventory,
+        sales tracking, customer management and business analytics.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <i class="bi bi-box-seam"></i>
+          <span>Inventory Control</span>
+        </div>
+
+        <div class="feature-card">
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>Sales Tracking</span>
+        </div>
+
+        <div class="feature-card">
+          <i class="bi bi-people"></i>
+          <span>Customer Records</span>
+        </div>
+
+        <div class="feature-card">
+          <i class="bi bi-bar-chart-line"></i>
+          <span>Reports & Insights</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-section">
+    <div class="login-card glass-card">
+      <div class="login-icon">
+        <i class="bi bi-shield-lock-fill"></i>
+      </div>
+
+      <h2 class="login-title">
+        {{ showVerificationBox ? 'Verify Email' : (isRegisterMode ? 'Create Account' : 'Welcome Back') }}
+      </h2>
+
+      <p class="login-text">
+        {{
+          showVerificationBox
+            ? 'Enter the 6-digit verification code sent to your email.'
+            : (isRegisterMode
+                ? 'Create your SmartBiz account to continue.'
+                : 'Login to access SmartBiz dashboard.')
+        }}
+      </p>
+
+      <form *ngIf="!showVerificationBox" (ngSubmit)="submitAuth()">
+        <div class="input-group-modern" *ngIf="isRegisterMode">
+          <label>Full Name</label>
+          <div class="input-box">
+            <i class="bi bi-person"></i>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your full name"
+              [(ngModel)]="name"
+            >
+          </div>
+        </div>
+
+        <div class="input-group-modern">
+          <label>Email Address</label>
+          <div class="input-box">
+            <i class="bi bi-envelope"></i>
+            <input
+              type="text"
+              name="email"
+              placeholder="Enter your email address"
+              [(ngModel)]="email"
+            >
+          </div>
+        </div>
+
+        <div class="input-group-modern">
+          <label>Password</label>
+          <div class="input-box">
+            <i class="bi bi-lock"></i>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              [(ngModel)]="password"
+            >
+          </div>
+        </div>
+
+
+
+        <p class="inline-error" *ngIf="errorMessage">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          {{ errorMessage }}
+        </p>
+
+        <p class="inline-success" *ngIf="demoOtp">
+          <i class="bi bi-key-fill"></i>
+          Demo OTP: {{ demoOtp }}
+        </p>
+
+        <p class="inline-success" *ngIf="successMessage">
+          <i class="bi bi-check-circle-fill"></i>
+          {{ successMessage }}
+        </p>
+
+        <button class="login-btn" type="submit" [disabled]="isLoading">
+          {{
+            isLoading
+              ? 'Please wait...'
+              : (isRegisterMode ? 'Create Account' : 'Login to Dashboard')
+          }}
+          <i class="bi bi-arrow-right" *ngIf="!isLoading"></i>
+        </button>
+      </form>
+
+      <div class="verification-box" *ngIf="showVerificationBox">
+        <p class="inline-success" *ngIf="successMessage">
+          <i class="bi bi-check-circle-fill"></i>
+          {{ successMessage }}
+        </p>
+
+        <p class="inline-error" *ngIf="errorMessage">
+          <i class="bi bi-exclamation-circle-fill"></i>
+          {{ errorMessage }}
+        </p>
+
+        <div class="input-group-modern">
+          <label>Verification Code</label>
+          <div class="input-box">
+            <i class="bi bi-key"></i>
+            <input
+              type="text"
+              placeholder="Enter 6-digit code"
+              [(ngModel)]="verificationCode"
+            >
+          </div>
+        </div>
+
+        <button class="login-btn" type="button" (click)="verifyEmail()">
+          Verify Email
+          <i class="bi bi-check2-circle"></i>
+        </button>
+
+        <button class="switch-auth-btn" type="button" (click)="resendOtp()">
+          Resend OTP
+        </button>
+      </div>
+
+      <button
+        class="switch-auth-btn"
+        type="button"
+        *ngIf="!showVerificationBox"
+        (click)="toggleMode()"
+      >
+        {{
+          isRegisterMode
+            ? 'Already have an account? Login'
+            : 'New user? Create an account'
+        }}
+      </button>
+
+      <button
+        class="forgot-btn"
+        type="button"
+        *ngIf="!showVerificationBox && !isRegisterMode"
+        (click)="openForgotPassword()"
+      >
+        Forgot Password?
+      </button>
+    </div>
+  </div>
+
+  <div class="forgot-modal-overlay" *ngIf="showForgotPassword">
+    <div class="forgot-modal glass-card">
+      <button class="close-modal-btn" (click)="closeForgotPassword()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="forgot-header">
+        <div class="forgot-icon">
+          <i class="bi bi-shield-lock-fill"></i>
+        </div>
+
+        <h2>Reset Password</h2>
+        <p>Secure your SmartBiz account with a new password.</p>
+      </div>
+
+      <div class="input-group-modern">
+        <label>Email Address</label>
+        <div class="input-box">
+          <i class="bi bi-envelope"></i>
+          <input
+            type="text"
+            [(ngModel)]="email"
+            placeholder="Enter your email address"
+          >
+        </div>
+      </div>
+
+      <button class="login-btn" type="button" (click)="sendResetCode()">
+        Send Verification Code
+      </button>
+
+      <div *ngIf="showResetPassword">
+        <div class="input-group-modern mt-3">
+          <label>Verification Code</label>
+          <div class="input-box">
+            <i class="bi bi-key"></i>
+            <input
+              type="text"
+              [(ngModel)]="resetCode"
+              placeholder="Enter 6-digit code"
+            >
+          </div>
+        </div>
+
+        <div class="input-group-modern">
+          <label>New Password</label>
+          <div class="input-box">
+            <i class="bi bi-lock"></i>
+            <input
+              type="password"
+              [(ngModel)]="newPassword"
+              placeholder="Enter new password"
+            >
+          </div>
+        </div>
+
+        <button class="login-btn" type="button" (click)="resetPassword()">
+          Reset Password
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

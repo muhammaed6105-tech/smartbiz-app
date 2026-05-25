@@ -1,0 +1,132 @@
+<section class="sales-page fade-in">
+  <div class="page-title">
+    <div>
+      <span class="section-badge"><i class="bi bi-receipt-cutoff"></i> Sales Management</span>
+      <h2>Sales Recording</h2>
+      <p>Create validated sales, reduce stock automatically and manage sale status.</p>
+    </div>
+    <button class="invoice-btn" type="button" (click)="loadData()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Refresh Sales
+    </button>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="sales-summary">
+    <div class="summary-card glass-card">
+      <i class="bi bi-cash-stack"></i>
+      <div><h3>AED {{ totalRevenue | number:'1.2-2' }}</h3><p>Total Revenue</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-bag-check"></i>
+      <div><h3>{{ sales.length }}</h3><p>Orders Recorded</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-box-seam"></i>
+      <div><h3>{{ products.length }}</h3><p>Sellable Products</p></div>
+    </div>
+  </div>
+
+  <form class="form-card glass-card" (ngSubmit)="createSale()">
+    <h3>Create Sale</h3>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <label>Customer</label>
+        <select class="form-control" name="customer" [(ngModel)]="form.customer">
+          <option value="">Walk-in Customer</option>
+          <option *ngFor="let customer of customers" [value]="customer._id">
+            {{ customer.firstName }} {{ customer.lastName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label>Product</label>
+        <select class="form-control" name="product" [(ngModel)]="form.product" required>
+          <option value="">Select product</option>
+          <option *ngFor="let product of products" [value]="product._id">
+            {{ product.name }} - AED {{ product.sellingPrice }} ({{ product.quantity }} in stock)
+          </option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <label>Qty</label>
+        <input class="form-control" type="number" min="1" name="quantity" [(ngModel)]="form.quantity" required>
+      </div>
+      <div class="col-md-2">
+        <label>Payment</label>
+        <select class="form-control" name="paymentMethod" [(ngModel)]="form.paymentMethod">
+          <option value="cash">Cash</option>
+          <option value="card">Card</option>
+          <option value="eft">EFT</option>
+          <option value="mobile_payment">Mobile Payment</option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <label>Disc %</label>
+        <input class="form-control" type="number" min="0" max="100" name="discount" [(ngModel)]="form.discount">
+      </div>
+      <div class="col-md-1">
+        <label>Tax %</label>
+        <input class="form-control" type="number" min="0" max="100" name="taxRate" [(ngModel)]="form.taxRate">
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="save-btn w-100" type="submit"><i class="bi bi-plus-circle"></i> Add</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="sales-grid">
+    <div class="table-card glass-card">
+      <div class="table-header">
+        <div>
+          <h3>Sales History</h3>
+          <p>Transactions stored in the database.</p>
+        </div>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Customer</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Status</th>
+              <th class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sale of sales">
+              <td><strong>{{ sale.invoiceNumber }}</strong><small>{{ sale.createdAt | date:'short' }}</small></td>
+              <td>{{ sale.customerName || 'Walk-in' }}</td>
+              <td>{{ productName(sale) }}</td>
+              <td>AED {{ sale.total | number:'1.2-2' }}</td>
+              <td><span class="status paid">{{ sale.status }}</span></td>
+              <td class="text-end">
+                <button class="action edit" type="button" title="Mark completed" (click)="updateStatus(sale, 'completed')"><i class="bi bi-check2-circle"></i></button>
+                <button class="action edit" type="button" title="Mark refunded" (click)="updateStatus(sale, 'refunded')"><i class="bi bi-arrow-counterclockwise"></i></button>
+                <button class="action delete" type="button" title="Cancel sale" (click)="deleteSale(sale)"><i class="bi bi-trash"></i></button>
+              </td>
+            </tr>
+            <tr *ngIf="!sales.length">
+              <td colspan="6" class="text-muted">No sales yet. Create a validated sale above.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="glass-card calculation-card">
+      <h3>Validation & Stock Control</h3>
+      <div class="logic-list">
+        <div><i class="bi bi-check-circle-fill"></i> Empty sales are blocked before saving</div>
+        <div><i class="bi bi-check-circle-fill"></i> Quantity is checked against live stock</div>
+        <div><i class="bi bi-check-circle-fill"></i> Completed sales reduce inventory automatically</div>
+        <div><i class="bi bi-check-circle-fill"></i> Cancelled sales restore stock through the API</div>
+      </div>
+    </div>
+  </div>
+</section>

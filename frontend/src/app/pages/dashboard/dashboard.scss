@@ -1,0 +1,284 @@
+.dashboard-page {
+  display: grid;
+  gap: 24px;
+}
+
+/* Top title area */
+.page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.page-title h2 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 950;
+  color: #111827;
+}
+
+.page-title p {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+}
+
+.export-btn {
+  border: 0;
+  padding: 13px 18px;
+  border-radius: 16px;
+  background: var(--gradient-main);
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 14px 34px rgba(124, 58, 237, 0.22);
+}
+
+/* KPI cards */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.kpi-card {
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::after {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: -55px;
+  bottom: -55px;
+  border-radius: 50%;
+  opacity: 0.16;
+}
+
+.kpi-card.pink::after {
+  background: #ec4899;
+}
+
+.kpi-card.green::after {
+  background: #22c55e;
+}
+
+.kpi-card.purple::after {
+  background: #7c3aed;
+}
+
+.kpi-card.orange::after {
+  background: #f97316;
+}
+
+.icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 26px;
+  margin-bottom: 18px;
+}
+
+.pink .icon-box {
+  background: linear-gradient(135deg, #ec4899, #f472b6);
+}
+
+.green .icon-box {
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+}
+
+.purple .icon-box {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.orange .icon-box {
+  background: linear-gradient(135deg, #f97316, #facc15);
+}
+
+.kpi-card p {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.kpi-card h3 {
+  margin: 8px 0;
+  color: #111827;
+  font-size: 34px;
+  font-weight: 950;
+}
+
+.kpi-card span {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+/* Main dashboard grid */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: 22px;
+}
+
+.insight-card,
+.activity-card {
+  padding: 28px;
+}
+
+.card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.card-heading h3 {
+  margin: 0;
+  color: #111827;
+  font-weight: 950;
+}
+
+.card-heading p {
+  margin: 5px 0 0;
+  color: var(--text-muted);
+}
+
+.card-heading > i {
+  font-size: 30px;
+  color: #8b5cf6;
+}
+
+.impact-list {
+  display: grid;
+  gap: 14px;
+}
+
+.impact-list div {
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(248, 250, 252, 0.82);
+  color: #334155;
+  font-weight: 800;
+}
+
+.impact-list i {
+  color: #22c55e;
+  margin-right: 10px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.activity-item:last-child {
+  border-bottom: 0;
+}
+
+.activity-item strong {
+  color: #111827;
+}
+
+.activity-item p {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+.pink-dot {
+  background: #ec4899;
+}
+
+.green-dot {
+  background: #22c55e;
+}
+
+.orange-dot {
+  background: #f97316;
+}
+
+/* Bottom modules */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.module-card {
+  padding: 24px;
+}
+
+.module-card i {
+  font-size: 34px;
+  background: var(--gradient-main);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.module-card h4 {
+  margin: 15px 0 8px;
+  font-weight: 950;
+  color: #111827;
+}
+
+.module-card p {
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .kpi-grid,
+  .module-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .page-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .kpi-grid,
+  .module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title h2 {
+    font-size: 30px;
+  }
+}

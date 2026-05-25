@@ -1,0 +1,149 @@
+<section class="dashboard-page fade-in">
+  <div class="page-title">
+    <div>
+      <span class="section-badge"><i class="bi bi-speedometer2"></i> Dashboard</span>
+      <h2>Business Overview</h2>
+      <p>Live SmartBiz Retail performance, stock alerts and API demo insights.</p>
+    </div>
+    <button class="export-btn" type="button" (click)="loadDashboard()">
+      <i class="bi bi-arrow-clockwise"></i>
+      Refresh
+    </button>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div class="alert alert-info" *ngIf="isLoading">Loading dashboard data...</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card glass-card pink">
+      <div class="icon-box"><i class="bi bi-cash-stack"></i></div>
+      <p>Total Revenue</p>
+      <h3>{{ formatMoney(summary.totalRevenue) }}</h3>
+      <span>Completed sales value</span>
+    </div>
+
+    <div class="kpi-card glass-card green">
+      <div class="icon-box"><i class="bi bi-calendar-check"></i></div>
+      <p>Daily Revenue</p>
+      <h3>{{ formatMoney(summary.dailyRevenue) }}</h3>
+      <span>Sales captured today</span>
+    </div>
+
+    <div class="kpi-card glass-card purple">
+      <div class="icon-box"><i class="bi bi-bag-check"></i></div>
+      <p>Monthly Sales</p>
+      <h3>{{ summary.monthlySalesCount || 0 }}</h3>
+      <span>{{ formatMoney(summary.monthlyRevenue) }} this month</span>
+    </div>
+
+    <div class="kpi-card glass-card orange">
+      <div class="icon-box"><i class="bi bi-exclamation-triangle"></i></div>
+      <p>Low Stock</p>
+      <h3>{{ summary.lowStockCount || 0 }}</h3>
+      <span>Products need attention</span>
+    </div>
+
+    <div class="kpi-card glass-card green">
+      <div class="icon-box"><i class="bi bi-people"></i></div>
+      <p>Total Customers</p>
+      <h3>{{ summary.totalCustomers || 0 }}</h3>
+      <span>Customer records</span>
+    </div>
+
+    <div class="kpi-card glass-card pink">
+      <div class="icon-box"><i class="bi bi-box-seam"></i></div>
+      <p>Total Products</p>
+      <h3>{{ summary.totalProducts || 0 }}</h3>
+      <span>Active inventory items</span>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="glass-card activity-card">
+      <div class="card-heading">
+        <div>
+          <h3>Recent Sales Activity</h3>
+          <p>Latest completed transactions.</p>
+        </div>
+        <i class="bi bi-clock-history"></i>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Invoice</th>
+              <th>Customer</th>
+              <th>Total</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sale of summary.recentSales">
+              <td><strong>{{ sale.invoiceNumber }}</strong></td>
+              <td>{{ sale.customerName || 'Walk-in' }}</td>
+              <td>{{ formatMoney(sale.total) }}</td>
+              <td>{{ sale.createdAt | date:'short' }}</td>
+            </tr>
+            <tr *ngIf="!summary.recentSales?.length">
+              <td colspan="4" class="text-muted">No sales recorded yet.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="glass-card activity-card">
+      <div class="card-heading">
+        <div>
+          <h3>Inventory Alerts</h3>
+          <p>Low and out-of-stock products.</p>
+        </div>
+        <i class="bi bi-bell-fill"></i>
+      </div>
+
+      <div class="activity-item" *ngFor="let product of summary.lowStockProducts">
+        <span class="dot orange-dot"></span>
+        <div>
+          <strong>{{ product.name }}</strong>
+          <p>{{ product.sku }} has {{ product.quantity }} left. Reorder level: {{ product.reorderLevel }}</p>
+        </div>
+      </div>
+      <div class="activity-item" *ngIf="!summary.lowStockProducts?.length">
+        <span class="dot green-dot"></span>
+        <div>
+          <strong>Stock levels healthy</strong>
+          <p>No low-stock alerts currently.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="module-grid">
+    <div class="module-card glass-card" *ngFor="let row of summary.monthlySales">
+      <i class="bi bi-bar-chart-line"></i>
+      <h4>{{ monthLabel(row.month) }}</h4>
+      <p>{{ row.count }} sales, {{ formatMoney(row.revenue) }} revenue.</p>
+    </div>
+  </div>
+
+  <div class="module-grid">
+    <div class="module-card glass-card">
+      <i class="bi bi-cloud-sun"></i>
+      <h3>Weather-Based Stock Insight</h3>
+      <p>{{ apiDemos.weather?.location }}: {{ apiDemos.weather?.temperatureC }}C, {{ apiDemos.weather?.logisticsAlert }}</p>
+    </div>
+
+    <div class="module-card glass-card">
+      <i class="bi bi-currency-exchange"></i>
+      <h3>Currency Exchange Insight</h3>
+      <p>1 AED = {{ apiDemos.currency?.rates?.USD }} USD. Used for multi-currency sales reporting.</p>
+    </div>
+
+    <div class="module-card glass-card">
+      <i class="bi bi-truck"></i>
+      <h3>Courier Delivery Status</h3>
+      <p>{{ apiDemos.courier?.trackingNumber }} is {{ apiDemos.courier?.status }} at {{ apiDemos.courier?.checkpoint }}.</p>
+    </div>
+  </div>
+</section>

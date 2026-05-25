@@ -1,0 +1,255 @@
+.reports-page {
+  display: grid;
+  gap: 24px;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-badge {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.14);
+  color: #0284c7;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.page-title h2 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 950;
+  color: #111827;
+}
+
+.page-title p {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+}
+
+.download-btn {
+  border: 0;
+  padding: 13px 18px;
+  border-radius: 16px;
+  background: var(--gradient-blue);
+  color: white;
+  font-weight: 900;
+  box-shadow: 0 14px 34px rgba(56, 189, 248, 0.22);
+}
+
+.report-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.summary-card {
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.summary-card i {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: rgba(56, 189, 248, 0.14);
+  color: #0284c7;
+  font-size: 28px;
+}
+
+.summary-card h3 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 950;
+}
+
+.summary-card p {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.report-card {
+  padding: 26px;
+  overflow: hidden;
+}
+
+.report-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 27px;
+  margin-bottom: 18px;
+}
+
+.report-icon.pink {
+  background: linear-gradient(135deg, #ec4899, #fb7185);
+}
+
+.report-icon.green {
+  background: linear-gradient(135deg, #22c55e, #14b8a6);
+}
+
+.report-icon.purple {
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.report-icon.orange {
+  background: linear-gradient(135deg, #f97316, #facc15);
+}
+
+.report-card h3 {
+  font-weight: 950;
+  color: #111827;
+}
+
+.report-card p {
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.mini-chart {
+  height: 90px;
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.mini-chart span {
+  flex: 1;
+  border-radius: 999px 999px 8px 8px;
+  background: var(--gradient-main);
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.2);
+}
+
+.progress-box {
+  margin-top: 22px;
+}
+
+.progress-box > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 900;
+  color: #334155;
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(226, 232, 240, 0.9);
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 999px;
+}
+
+.stock-bar {
+  width: 93%;
+  background: var(--gradient-green);
+}
+
+.customer-bar {
+  width: 72%;
+  background: var(--gradient-purple);
+}
+
+.alert-line {
+  margin-top: 22px;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(249, 115, 22, 0.13);
+  color: #c2410c;
+  font-weight: 900;
+}
+
+.alert-line i {
+  margin-right: 8px;
+}
+
+.evaluation-card {
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+
+.evaluation-card h3 {
+  font-weight: 950;
+  color: #111827;
+}
+
+.evaluation-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+  max-width: 850px;
+}
+
+.score-box {
+  min-width: 180px;
+  text-align: center;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(248, 250, 252, 0.85);
+}
+
+.score-box span {
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.score-box h2 {
+  font-size: 46px;
+  font-weight: 950;
+  margin: 6px 0 0;
+}
+
+@media (max-width: 1200px) {
+  .reports-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .report-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title,
+  .evaluation-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reports-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .score-box {
+    width: 100%;
+  }
+}

@@ -1,0 +1,83 @@
+<app-login
+  *ngIf="!isLoggedIn"
+  (loginSuccess)="login()">
+</app-login>
+
+<div class="smartbiz-shell fade-in" *ngIf="isLoggedIn">
+
+  <aside class="smartbiz-sidebar glass-card">
+
+    <div class="brand-box">
+      <div class="brand-logo">
+        <i class="bi bi-shop"></i>
+      </div>
+
+      <div>
+        <h2 class="gradient-text">SmartBiz</h2>
+        <p>Retail Management</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button [class.active]="activePage === 'dashboard'" (click)="setPage('dashboard')">
+        <i class="bi bi-grid-1x2-fill"></i>
+        Dashboard
+      </button>
+
+      <button [class.active]="activePage === 'inventory'" (click)="setPage('inventory')">
+        <i class="bi bi-box-seam"></i>
+        Inventory
+      </button>
+
+      <button [class.active]="activePage === 'customers'" (click)="setPage('customers')">
+        <i class="bi bi-people-fill"></i>
+        Customers
+      </button>
+
+      <button [class.active]="activePage === 'sales'" (click)="setPage('sales')">
+        <i class="bi bi-cart-check-fill"></i>
+        Sales
+      </button>
+
+      <button *ngIf="canViewReports()" [class.active]="activePage === 'reports'" (click)="setPage('reports')">
+        <i class="bi bi-bar-chart-fill"></i>
+        Reports
+      </button>
+      <button 
+        *ngIf="role === 'admin'"
+        [class.active]="activePage === 'users'"
+        (click)="setPage('users')">
+
+        <i class="bi bi-person-gear"></i>
+        Users
+        
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="admin-box">
+        <div class="admin-avatar">{{ (user?.name || 'U').charAt(0).toUpperCase() }}</div>
+        <div>
+          <h4>{{ user?.name || 'SmartBiz User' }}</h4>
+          <p>{{ (user?.role || 'staff') | titlecase }} access</p>
+        </div>
+      </div>
+
+      <button class="logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </div>
+
+  </aside>
+
+  <main class="smartbiz-main">
+    <app-dashboard *ngIf="activePage === 'dashboard'"></app-dashboard>
+    <app-inventory *ngIf="activePage === 'inventory'"></app-inventory>
+    <app-customers *ngIf="activePage === 'customers'"></app-customers>
+    <app-sales *ngIf="activePage === 'sales'"></app-sales>
+    <app-reports *ngIf="activePage === 'reports'"></app-reports>
+    <app-users *ngIf="activePage === 'users'"></app-users>
+  </main>
+
+</div>

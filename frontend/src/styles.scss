@@ -1,0 +1,249 @@
+/* Bootstrap + Icons */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* Global Theme */
+:root {
+  --bg-main: #ffffff;
+  --bg-soft: #f8fafc;
+  --text-main: #24324a;
+  --text-muted: #64748b;
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.08);
+  --gradient-main: linear-gradient(135deg, #ff4ecd, #7c3aed, #38bdf8);
+  --gradient-green: linear-gradient(135deg, #22c55e, #14b8a6);
+  --gradient-orange: linear-gradient(135deg, #f97316, #facc15);
+  --gradient-purple: linear-gradient(135deg, #8b5cf6, #ec4899);
+  --gradient-blue: linear-gradient(135deg, #38bdf8, #6366f1);
+}
+
+/* Full application reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(236, 72, 153, 0.12), transparent 28%),
+    radial-gradient(circle at top right, rgba(56, 189, 248, 0.14), transparent 28%),
+    linear-gradient(180deg, #ffffff, #f8fafc);
+  color: var(--text-main);
+}
+
+/* PREMIUM TYPOGRAPHY */
+
+h1,
+.hero-title {
+  font-family: "Segoe UI", Arial, sans-serif !important;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: #24324a;
+}
+
+p,
+span,
+label,
+input,
+button,
+a,
+li {
+  font-family: "Inter", sans-serif;
+}
+
+p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #64748b;
+}
+
+button {
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+input {
+  font-weight: 700;
+}
+
+.card,
+.feature-card,
+.glass-card {
+  transition: all 0.35s ease;
+}
+
+.card:hover,
+.feature-card:hover,
+.glass-card:hover {
+  transform: translateY(-6px);
+}
+
+/* Smooth UI */
+button,
+.card,
+.glass-card {
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Reusable gradient text */
+.gradient-text {
+  background: var(--gradient-main);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Reusable glass card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Page animation */
+.fade-in {
+  animation: fadeIn 0.45s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive helper */
+@media (max-width: 992px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+h1, h2, h3, h4 {
+  color: #1f2937;
+  letter-spacing: -0.5px;
+}
+/* Professional soft background pattern */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(236, 72, 153, 0.16), transparent 28%),
+    radial-gradient(circle at 88% 10%, rgba(56, 189, 248, 0.20), transparent 30%),
+    radial-gradient(circle at 50% 95%, rgba(124, 58, 237, 0.10), transparent 34%),
+    linear-gradient(135deg, #ffffff 0%, #f8fbff 45%, #ffffff 100%);
+}
+
+/* Subtle grid texture */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55), transparent 75%);
+  pointer-events: none;
+}
+
+/* More premium glass effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 22px 70px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Smooth entrance animation */
+.fade-in {
+  animation: fadeInUp 0.55s ease both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Better text softness */
+h1, h2, h3, h4 {
+  color: #1f2937;
+}
+
+p {
+  color: #64748b;
+}
+
+/* PREMIUM TOAST NOTIFICATIONS */
+
+#toast-container.toast-top-right {
+  top: 24px !important;
+  right: 24px !important;
+  bottom: auto !important;
+  left: auto !important;
+}
+
+#toast-container > div {
+  width: 360px !important;
+  min-height: 76px !important;
+  border-radius: 22px !important;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.16) !important;
+  font-family: "Inter", sans-serif !important;
+  padding: 18px 18px 18px 58px !important;
+  color: white !important;
+  border: none !important;
+}
+
+.toast-success {
+  background: linear-gradient(135deg, #22c55e, #14b8a6) !important;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, #ef4444, #f97316) !important;
+}
+
+.toast-warning {
+  background: linear-gradient(135deg, #f59e0b, #f97316) !important;
+}
+
+.toast-title {
+  font-weight: 900 !important;
+  font-size: 15px !important;
+}
+
+.toast-message {
+  font-weight: 600 !important;
+  opacity: 0.96;
+}

@@ -1,0 +1,118 @@
+<section class="users-page fade-in">
+
+  <div class="page-title">
+    <div>
+      <span class="section-badge">
+        <i class="bi bi-person-gear"></i>
+        User Management
+      </span>
+
+      <h2>Manage System Users</h2>
+
+      <p>
+        Control user roles and manage staff access permissions securely.
+      </p>
+    </div>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">
+    {{ successMessage }}
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <div class="table-card glass-card">
+
+    <div class="table-header">
+      <div>
+        <h3>Registered Users</h3>
+
+        <p>
+          Only administrators can manage user roles.
+        </p>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+
+      <table class="table align-middle">
+
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let user of users">
+
+            <td>
+              <strong>{{ user.name }}</strong>
+            </td>
+
+            <td>
+              {{ user.email }}
+            </td>
+
+            <td>
+              <select
+                class="form-select"
+                [(ngModel)]="user.role">
+
+                <option value="staff">Staff</option>
+                <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
+
+              </select>
+            </td>
+
+            <td>
+              <span class="status available">
+
+                {{ user.isVerified ? 'Verified' : 'Pending' }}
+
+              </span>
+            </td>
+
+            <td class="text-end">
+
+              <button
+                class="save-btn"
+                type="button"
+                (click)="updateRole(user)">
+
+                <i class="bi bi-save"></i>
+                Update Role
+
+              </button>
+
+            </td>
+
+          </tr>
+
+          <tr *ngIf="!users.length">
+
+            <td colspan="5" class="text-muted">
+
+              No users found.
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>

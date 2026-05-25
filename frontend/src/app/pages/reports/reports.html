@@ -1,0 +1,115 @@
+<section class="reports-page fade-in">
+  <div class="page-title">
+    <div>
+      <span class="section-badge"><i class="bi bi-bar-chart-line"></i> Reports & Analytics</span>
+      <h2>Business Reports</h2>
+      <p>Sales, revenue, inventory, customers, API demos and management insights.</p>
+    </div>
+    <button class="download-btn" type="button" (click)="downloadSalesReport()">
+      <i class="bi bi-cloud-download"></i>
+      Download Sales CSV
+    </button>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="report-summary">
+    <div class="summary-card glass-card">
+      <i class="bi bi-cash-coin"></i>
+      <div><h3>{{ formatMoney(report.totals?.totalRevenue) }}</h3><p>Total Revenue</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-calendar-day"></i>
+      <div><h3>{{ formatMoney(report.daily?.dailyRevenue) }}</h3><p>Daily Revenue</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-calendar3"></i>
+      <div><h3>{{ formatMoney(report.monthly?.monthlyRevenue) }}</h3><p>Monthly Revenue</p></div>
+    </div>
+  </div>
+
+  <div class="reports-grid">
+    <div class="report-card glass-card">
+      <div class="report-icon pink"><i class="bi bi-graph-up-arrow"></i></div>
+      <h3>Sales Summary</h3>
+      <p>{{ report.totals?.totalSales || 0 }} completed sales with {{ formatMoney(report.totals?.totalRevenue) }} revenue.</p>
+      <div class="mini-chart">
+        <span style="height: 45%"></span><span style="height: 75%"></span><span style="height: 58%"></span><span style="height: 90%"></span><span style="height: 68%"></span>
+      </div>
+    </div>
+
+    <div class="report-card glass-card">
+      <div class="report-icon green"><i class="bi bi-box-seam"></i></div>
+      <h3>Inventory Report</h3>
+      <p>{{ report.inventoryValue?.length || 0 }} categories tracked. Low-stock items: {{ report.lowStock?.length || 0 }}.</p>
+      <div class="progress-box" *ngFor="let category of report.inventoryValue">
+        <div><span>{{ category._id }}</span><strong>{{ formatMoney(category.totalRetailValue) }}</strong></div>
+        <div class="progress"><div class="progress-bar stock-bar"></div></div>
+      </div>
+    </div>
+
+    <div class="report-card glass-card">
+      <div class="report-icon purple"><i class="bi bi-people"></i></div>
+      <h3>Customer Purchase Summary</h3>
+      <p>Top customer: {{ report.topCustomers?.[0]?.firstName || 'No purchases yet' }} {{ report.topCustomers?.[0]?.lastName || '' }}.</p>
+      <div class="progress-box" *ngFor="let customer of report.topCustomers?.slice(0, 3)">
+        <div><span>{{ customer.firstName }} {{ customer.lastName }}</span><strong>{{ formatMoney(customer.totalSpent) }}</strong></div>
+        <div class="progress"><div class="progress-bar customer-bar"></div></div>
+      </div>
+    </div>
+
+    <div class="report-card glass-card">
+      <div class="report-icon orange"><i class="bi bi-stars"></i></div>
+      <h3>Best-Selling Products</h3>
+      <p *ngFor="let product of report.topProducts?.slice(0, 4)">
+        {{ product.productName }}: {{ product.totalSold }} sold, {{ formatMoney(product.totalRevenue) }}.
+      </p>
+      <p *ngIf="!report.topProducts?.length">No sales data yet.</p>
+    </div>
+  </div>
+
+  <div class="table-card glass-card mt-4">
+    <div class="table-header">
+      <div>
+        <h3>Sales History Table</h3>
+        <p>Recent transaction evidence for assignment testing.</p>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr><th>Invoice</th><th>Customer</th><th>Payment</th><th>Status</th><th>Total</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sale of report.salesHistory">
+            <td><strong>{{ sale.invoiceNumber }}</strong></td>
+            <td>{{ sale.customerName || 'Walk-in' }}</td>
+            <td>{{ sale.paymentMethod }}</td>
+            <td><span class="status active">{{ sale.status }}</span></td>
+            <td>{{ formatMoney(sale.total) }}</td>
+            <td>{{ sale.createdAt | date:'short' }}</td>
+          </tr>
+          <tr *ngIf="!report.salesHistory?.length"><td colspan="6" class="text-muted">No sales history available.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="reports-grid mt-4">
+    <div class="report-card glass-card">
+      <div class="report-icon green"><i class="bi bi-cloud-sun"></i></div>
+      <h3>Weather-Based Stock Insight</h3>
+      <p>{{ apiDemos.weather?.location }} stock/logistics alert: {{ apiDemos.weather?.logisticsAlert }}</p>
+    </div>
+    <div class="report-card glass-card">
+      <div class="report-icon pink"><i class="bi bi-currency-exchange"></i></div>
+      <h3>Multi-Currency Sales Insight</h3>
+      <p>USD {{ apiDemos.currency?.rates?.USD }}, GBP {{ apiDemos.currency?.rates?.GBP }}, ZAR {{ apiDemos.currency?.rates?.ZAR }} per AED.</p>
+    </div>
+    <div class="report-card glass-card">
+      <div class="report-icon orange"><i class="bi bi-truck"></i></div>
+      <h3>Courier Delivery Status</h3>
+      <p>{{ apiDemos.courier?.trackingNumber }}: {{ apiDemos.courier?.status }}, {{ apiDemos.courier?.estimatedDelivery }}.</p>
+    </div>
+  </div>
+</section>

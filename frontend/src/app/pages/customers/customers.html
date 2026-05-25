@@ -1,0 +1,114 @@
+<section class="customers-page fade-in">
+  <div class="page-title">
+    <div>
+      <span class="section-badge"><i class="bi bi-people"></i> Customer Management</span>
+      <h2>Customer Records</h2>
+      <p>Create, edit and maintain customer information securely.</p>
+    </div>
+    <button class="add-btn" type="button" (click)="resetForm()">
+      <i class="bi bi-person-plus"></i>
+      New Customer
+    </button>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="customer-summary">
+    <div class="summary-card glass-card">
+      <i class="bi bi-person-check"></i>
+      <div><h3>{{ customers.length }}</h3><p>Total Customers</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-cart-check"></i>
+      <div><h3>{{ customers.length }}</h3><p>Stored Records</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-stars"></i>
+      <div><h3>{{ customers[0]?.loyaltyPoints || 0 }}</h3><p>Top Loyalty Points</p></div>
+    </div>
+  </div>
+
+  <form class="form-card glass-card" (ngSubmit)="saveCustomer()">
+    <h3>{{ isEditing ? 'Edit Customer' : 'Add Customer' }}</h3>
+    <div class="row g-3">
+      <div class="col-md-2">
+        <label>First Name</label>
+        <input class="form-control" name="firstName" [(ngModel)]="form.firstName" required>
+      </div>
+      <div class="col-md-2">
+        <label>Last Name</label>
+        <input class="form-control" name="lastName" [(ngModel)]="form.lastName" required>
+      </div>
+      <div class="col-md-3">
+        <label>Email Address</label>
+        <input class="form-control" type="email" name="email" [(ngModel)]="form.email">
+      </div>
+      <div class="col-md-2">
+        <label>Phone</label>
+        <input class="form-control" name="phone" [(ngModel)]="form.phone">
+      </div>
+      <div class="col-md-2">
+        <label>City</label>
+        <input class="form-control" name="city" [(ngModel)]="form.address.city">
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="save-btn w-100" type="submit"><i class="bi bi-save"></i> Save</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="table-card glass-card">
+    <div class="table-header">
+      <div>
+        <h3>Customer List</h3>
+        <p>Centralised customer database records.</p>
+      </div>
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input name="search" [(ngModel)]="search" (keyup.enter)="loadCustomers()" placeholder="Search customer">
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>City</th>
+            <th>Spent</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customer of customers">
+            <td>
+              <div class="customer-name">
+                <div class="avatar pink">{{ customer.firstName?.charAt(0) }}</div>
+                <div>
+                  <strong>{{ customer.firstName }} {{ customer.lastName }}</strong>
+                  <small>ID: {{ customer._id }}</small>
+                </div>
+              </div>
+            </td>
+            <td>{{ customer.email || 'Not supplied' }}</td>
+            <td>{{ customer.phone || 'Not supplied' }}</td>
+            <td>{{ customer.address?.city || 'Not supplied' }}</td>
+            <td>AED {{ customer.totalSpent || 0 | number:'1.2-2' }}</td>
+            <td><span class="status active">{{ customer.status }}</span></td>
+            <td class="text-end">
+              <button class="action edit" type="button" title="Edit customer" (click)="editCustomer(customer)"><i class="bi bi-pencil"></i></button>
+              <button class="action delete" type="button" title="Delete customer" (click)="deleteCustomer(customer)"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+          <tr *ngIf="!customers.length">
+            <td colspan="7" class="text-muted">No customers found. Add your first customer above.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,119 @@
+<section class="inventory-page fade-in">
+  <div class="page-title">
+    <div>
+      <span class="section-badge"><i class="bi bi-box-seam"></i> Inventory Management</span>
+      <h2>Products & Stock Control</h2>
+      <p>Manage product records, stock levels, reorder alerts and availability.</p>
+    </div>
+  </div>
+
+  <div class="alert alert-success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="inventory-summary">
+    <div class="summary-card glass-card">
+      <i class="bi bi-boxes"></i>
+      <div><h3>{{ products.length }}</h3><p>Total Products</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-check-circle"></i>
+      <div><h3>{{ availableCount }}</h3><p>Available Items</p></div>
+    </div>
+    <div class="summary-card glass-card">
+      <i class="bi bi-exclamation-triangle"></i>
+      <div><h3>{{ lowStockCount }}</h3><p>Low Stock Alerts</p></div>
+    </div>
+  </div>
+
+  <form *ngIf="canManageInventory()" class="form-card glass-card" (ngSubmit)="saveProduct()">
+    <h3>{{ isEditing ? 'Edit Product' : 'Add Product' }}</h3>
+    <div class="row g-3">
+      <div class="col-md-2">
+        <label>SKU</label>
+        <input class="form-control" name="sku" [(ngModel)]="form.sku" required>
+      </div>
+      <div class="col-md-3">
+        <label>Product Name</label>
+        <input class="form-control" name="name" [(ngModel)]="form.name" required>
+      </div>
+      <div class="col-md-2">
+        <label>Category</label>
+        <select class="form-control" name="category" [(ngModel)]="form.category">
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <label>Cost</label>
+        <input class="form-control" type="number" name="costPrice" [(ngModel)]="form.costPrice" min="0" required>
+      </div>
+      <div class="col-md-1">
+        <label>Price</label>
+        <input class="form-control" type="number" name="sellingPrice" [(ngModel)]="form.sellingPrice" min="0" required>
+      </div>
+      <div class="col-md-1">
+        <label>Stock</label>
+        <input class="form-control" type="number" name="quantity" [(ngModel)]="form.quantity" min="0" required>
+      </div>
+      <div class="col-md-1">
+        <label>Alert</label>
+        <input class="form-control" type="number" name="reorderLevel" [(ngModel)]="form.reorderLevel" min="0">
+      </div>
+      <div class="col-md-1 d-flex align-items-end">
+        <button class="save-btn w-100" type="submit">
+          <i class="bi bi-save"></i>
+          Save
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="table-card glass-card">
+    <div class="table-header">
+      <div>
+        <h3>Product List</h3>
+        <p>Database-backed inventory records.</p>
+      </div>
+      <div class="search-box">
+        <i class="bi bi-search"></i>
+        <input name="search" [(ngModel)]="search" (keyup.enter)="loadProducts()" placeholder="Search product">
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table align-middle">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Category</th>
+            <th>Cost</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Status</th>
+            <th class="text-end">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+            <td><strong>{{ product.name }}</strong><small>SKU: {{ product.sku }}</small></td>
+            <td>{{ product.category }}</td>
+            <td>AED {{ product.costPrice | number:'1.2-2' }}</td>
+            <td>AED {{ product.sellingPrice | number:'1.2-2' }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>
+              <span class="status" [class.low]="product.quantity <= product.reorderLevel" [class.available]="product.quantity > product.reorderLevel">
+                {{ stockStatus(product) }}
+              </span>
+            </td>
+            <td class="text-end">
+              <button *ngIf="canManageInventory()" class="action edit" type="button" title="Edit product" (click)="editProduct(product)"><i class="bi bi-pencil"></i></button>
+              <button *ngIf="canDeleteInventory()" class="action delete" type="button" title="Delete product" (click)="deleteProduct(product)"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>
+          <tr *ngIf="!products.length">
+            <td colspan="7" class="text-muted">No products found. Add your first inventory item above.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,95 @@
+<div class="login-page">
+  <div class="login-left">
+    <div class="brand">
+      <div class="brand-icon">SB</div>
+      <span class="brand-name">SmartBiz Retail</span>
+    </div>
+    <div class="hero-text">
+      <h1>Run your business<br><span class="accent">smarter.</span></h1>
+      <p>All-in-one platform for inventory, customers, and sales — built for growing businesses.</p>
+    </div>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <span>Real-time inventory tracking</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <span>Customer loyalty management</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-dot"></div>
+        <span>Sales analytics & reporting</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <div class="card-header">
+        <h2>Welcome back</h2>
+        <p>Sign in to your SmartBiz account</p>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+        <div class="field-group">
+          <label class="field-label" for="email">Email address</label>
+          <div class="input-wrap" [class.has-error]="email.invalid && email.touched">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><path d="M2.5 5.5A1.5 1.5 0 014 4h12a1.5 1.5 0 011.5 1.5v9A1.5 1.5 0 0116 16H4a1.5 1.5 0 01-1.5-1.5v-9z" stroke="currentColor" stroke-width="1.2"/><path d="M2.5 6l7.5 5 7.5-5" stroke="currentColor" stroke-width="1.2"/></svg>
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              placeholder="Email Address"
+              autocomplete="off"
+            />
+          </div>
+          <span class="field-error" *ngIf="email.invalid && email.touched">
+            {{ email.errors?.['required'] ? 'Email is required' : 'Enter a valid email address' }}
+          </span>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="password">Password</label>
+          <div class="input-wrap" [class.has-error]="password.invalid && password.touched">
+            <svg class="input-icon" viewBox="0 0 20 20" fill="none"><rect x="4" y="9" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M7 9V7a3 3 0 016 0v2" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="13" r="1" fill="currentColor"/></svg>
+            <input
+              id="password"
+              [type]="showPw() ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••"
+              autocomplete="new-password"
+            />
+            <button type="button" class="toggle-pw" (click)="showPw.set(!showPw())">
+              <svg *ngIf="!showPw()" viewBox="0 0 20 20" fill="none"><path d="M1 10s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z" stroke="currentColor" stroke-width="1.2"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg>
+              <svg *ngIf="showPw()" viewBox="0 0 20 20" fill="none"><path d="M3 3l14 14M8.5 8.6A2.5 2.5 0 0011.4 11M6.2 6.3C4 7.6 2 10 2 10s3 6 8 6c1.6 0 3-.5 4.2-1.2M10 4c4.5 0 8 6 8 6s-.8 1.4-2.2 2.8" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+          </div>
+          <span class="field-error" *ngIf="password.invalid && password.touched">
+            {{ password.errors?.['required'] ? 'Password is required' : 'Password must be at least 6 characters' }}
+          </span>
+        </div>
+
+        <div class="error-banner" *ngIf="error()">
+          <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.2"/><path d="M10 7v4M10 13h.01" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          {{ error() }}
+        </div>
+
+        <button type="submit" class="btn-login" [disabled]="loading()">
+          <span *ngIf="!loading()">Sign in</span>
+          <span *ngIf="loading()" class="spinner"></span>
+        </button>
+
+        <button type="button" class="btn-demo" (click)="fillDemo()">
+          Fill demo credentials
+        </button>
+
+      </form>
+
+      <p class="login-footer">
+        SmartBiz Retail Management &copy; {{ year }}
+      </p>
+    </div>
+  </div>
+</div>
