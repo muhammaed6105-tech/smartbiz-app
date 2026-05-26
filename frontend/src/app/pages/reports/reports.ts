@@ -32,7 +32,7 @@ export class Reports implements OnInit {
 
   downloadSalesReport(): void {
     const token = localStorage.getItem('token');
-    const url = `http://localhost:5000/api/reports/download/sales.csv?token=${token || ''}`;
+    const url = `https://smartbiz-backend-p562.onrender.com/api/reports/download/sales.csv?token=${token || ''}`;
     window.open(url, '_blank');
   }
 
